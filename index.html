@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+      margin:10px;
+    }
+    .btn:hover{background:var(--btnHover)}
+    .screen{display:none; padding-top:90px}
+    .active{display:block}
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:20px}
+    video{
+      width:220px;
+      position:fixed;
+      bottom:20px;
+      right:20px;
+      border-radius:12px;
+      display:none;
+      z-index:9999;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>🏥 المستشفى الذكي</div>
+  <button class="btn" onclick="goHome()">الرئيسية</button>
+</header>
+
+<!-- HOME -->
+<div id="home" class="screen active">
+  <h1>مرحبًا بك</h1>
+
+  <button class="btn" onclick="startCamera()">تشغيل الكاميرا</button>
+
+  <div class="grid">
+    <button class="btn" onclick="alert('الخدمات')">الخدمات</button>
+    <button class="btn" onclick="alert('تذكرة')">تذكرة</button>
+    <button class="btn" onclick="alert('مساعدة')">مساعدة</button>
+    <button class="btn" onclick="alert('لغة')">اللغة</button>
+  </div>
+</div>
+
+<video id="video" autoplay></video>
+
+<script>
+let stream;
+
+function startCamera(){
+  navigator.mediaDevices.getUserMedia({ video:true })
+    .then(s => {
+      stream = s;
+      const video = document.getElementById("video");
+      video.srcObject = stream;
+      video.style.display = "block";
+      alert("Camera started");
+    })
+    .catch(err => {
+      alert("Camera error: " + err.message);
+    });
+}
+
+function goHome(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('home').classList.add('active');
+}
+</script>
+
+</body>
+</html>
